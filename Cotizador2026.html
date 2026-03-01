@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adereso — Cotizador 2026</title>
+<meta name="color-scheme" content="dark" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --panel: rgba(255,255,255,0.04);
+    --stroke: rgba(255,255,255,0.1);
+    --stroke-2: rgba(255,255,255,0.14);
+    --text: rgba(255,255,255,0.92);
+    --muted: rgba(255,255,255,0.56);
+    --muted-2: rgba(255,255,255,0.38);
+    --shadow: 0 22px 70px rgba(0,0,0,0.6);
+    --blue: #4264ff;
+    --blue-2: rgba(66,100,255,0.18);
+    --yellow: #f2c94c;
+    --green: #4caf50;
+    --card: rgba(255,255,255,0.055);
+    --card-2: rgba(255,255,255,0.025);
+    --card-stroke: rgba(255,255,255,0.1);
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+    --radius-sm: 12px;
+    --maxw: 1100px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(900px 520px at 50% 0%, rgba(255,255,255,0.06), transparent 60%),
+      radial-gradient(1200px 720px at 50% 110%, rgba(66,100,255,0.12), transparent 62%),
+      radial-gradient(900px 520px at 10% 30%, rgba(66,100,255,0.08), transparent 60%),
+      linear-gradient(180deg, #070707, #0a0a0c 45%, #070707);
+    overflow-x: hidden;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(900px 520px at 50% 20%, transparent 55%, rgba(0,0,0,0.55) 100%);
+    opacity: 0.85; z-index: 0;
+  }
+
+  header, main, footer { position: relative; z-index: 1; }
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    width: min(var(--maxw), calc(100% - 40px));
+    margin: 0 auto;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(14px);
+    background: linear-gradient(180deg, rgba(10,10,12,0.92), rgba(10,10,12,0.72));
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 14px 0;
+  }
+  .brand {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 800; letter-spacing: 0.2px; font-size: 15px;
+  }
+  .nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .nav a {
+    font-size: 12px; color: var(--muted);
+    padding: 7px 10px; border-radius: 999px;
+    border: 1px solid transparent; transition: 160ms ease;
+  }
+  .nav a:hover { color: var(--text); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 12px; border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--muted); font-size: 12px;
+  }
+  .badge-dot {
+    width: 7px; height: 7px; border-radius: 99px;
+    background: var(--yellow);
+    box-shadow: 0 0 0 5px rgba(242,201,76,0.14);
+  }
+
+  /* LAYOUT */
+  h1, h2, h3 { letter-spacing: -0.02em; }
+  .accent { color: var(--yellow); }
+  .muted { color: var(--muted); }
+
+  /* CARD */
+  .card {
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--card), var(--card-2));
+    border: 1px solid var(--card-stroke);
+    box-shadow: 0 26px 80px rgba(0,0,0,0.55);
+  }
+  .card.pad { padding: clamp(28px, 3.2vw, 44px); }
+
+  /* FOOTER */
+  footer { padding: 32px 0 56px; color: var(--muted-2); border-top: 1px solid rgba(255,255,255,0.08); }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; }
+
+  /* BTN */
+  .btn {
+    display: inline-block; background: var(--yellow); color: #0d0d0d;
+    font-family: Inter, sans-serif; font-size: 14px; font-weight: 700;
+    padding: 14px 36px; border-radius: 999px;
+    transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 0.2px;
+    border: none; cursor: pointer;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(242,201,76,0.3); }
+  .btn-outline {
+    display: inline-block; background: transparent; color: var(--text);
+    font-family: Inter, sans-serif; font-size: 13px; font-weight: 600;
+    padding: 10px 24px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15); cursor: pointer;
+    transition: 160ms ease;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
+
+  /* ═══════════════════════════════════════════════════════════
+     COTIZADOR STYLES
+     ═══════════════════════════════════════════════════════════ */
+
+  .cotizador-hero {
+    padding: clamp(60px, 8vh, 100px) 0 40px;
+    text-align: center;
+  }
+  .cotizador-hero h1 {
+    font-size: clamp(28px, 3.8vw, 44px);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .cotizador-hero p {
+    color: var(--muted);
+    font-size: clamp(13px, 1.3vw, 15px);
+    max-width: 52ch;
+    margin: 0 auto;
+  }
+
+  .cotizador-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: clamp(20px, 2.8vw, 36px);
+    align-items: start;
+    padding-bottom: clamp(60px, 10vh, 120px);
+  }
+
+  /* Left: configurador */
+  .config-section {
+    margin-bottom: 28px;
+  }
+  .config-section:last-child { margin-bottom: 0; }
+  .config-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  /* Selector cards */
+  .selector-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .selector-card {
+    flex: 1; min-width: 140px;
+    padding: 18px 20px;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    text-align: center;
+  }
+  .selector-card:hover {
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+  }
+  .selector-card.active {
+    border-color: var(--yellow);
+    background: rgba(242,201,76,0.08);
+    box-shadow: 0 0 0 3px rgba(242,201,76,0.12);
+  }
+  .selector-card .icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .selector-card .name { font-size: 13px; font-weight: 700; color: #fff; }
+  .selector-card .desc { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .selector-card .price-tag {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--yellow);
+  }
+
+  /* Select dropdowns & inputs */
+  .field-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .field {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .field label {
+    font-size: 12px; color: var(--muted); font-weight: 600;
+  }
+  .field select,
+  .field input[type="number"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Inter, sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .field select:focus,
+  .field input[type="number"]:focus {
+    border-color: rgba(242,201,76,0.5);
+  }
+  .field .hint {
+    font-size: 11px; color: var(--muted-2); margin-top: -2px;
+  }
+
+  /* Slider */
+  .slider-wrap {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .slider-wrap input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+    outline: none;
+  }
+  .slider-wrap input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--yellow);
+    border: 2px solid rgba(0,0,0,0.3);
+    cursor: pointer;
+    box-shadow: 0 0 0 4px rgba(242,201,76,0.15), 0 4px 12px rgba(0,0,0,0.4);
+    transition: box-shadow 0.15s;
+  }
+  .slider-wrap input[type="range"]::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 6px rgba(242,201,76,0.25), 0 4px 16px rgba(0,0,0,0.5);
+  }
+  .slider-wrap input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--yellow);
+    border: 2px solid rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+  .slider-value {
+    min-width: 72px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--yellow);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 8px 12px;
+  }
+
+  /* Toggle switches */
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .toggle-row:hover { background: rgba(255,255,255,0.05); }
+  .toggle-row .toggle-info {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .toggle-row .toggle-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .toggle-row .toggle-desc { font-size: 11px; color: var(--muted); }
+  .toggle-price-wrap {
+    display: flex; align-items: center; gap: 8px; white-space: nowrap;
+  }
+  .toggle-price-original {
+    font-size: 12px; font-weight: 700; color: #fff;
+    transition: 0.2s;
+  }
+  .toggle-price-original.struck {
+    text-decoration: line-through;
+    color: var(--muted-2);
+  }
+  .toggle-price-free {
+    font-size: 13px; font-weight: 800; color: var(--yellow);
+  }
+  .toggle-switch {
+    position: relative;
+    width: 40px; height: 22px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 999px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on {
+    background: var(--yellow);
+  }
+  .toggle-switch.on::after {
+    transform: translateX(18px);
+  }
+
+  /* Right: summary sticky */
+  .summary-panel {
+    position: sticky;
+    top: 80px;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: var(--shadow);
+    padding: clamp(24px, 2.8vw, 36px);
+  }
+  .summary-title {
+    font-size: 14px; font-weight: 700; color: #fff;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .summary-line {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+  }
+  .summary-line:last-of-type { border-bottom: none; }
+  .summary-line .label { color: var(--muted); }
+  .summary-line .value { font-weight: 700; color: #fff; }
+  .summary-line.highlight .value { color: var(--yellow); }
+  .summary-line.discount .value { color: var(--green); }
+
+  .summary-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(242,201,76,0.3), transparent);
+    margin: 16px 0;
+  }
+
+  .summary-total {
+    text-align: center;
+    padding: 20px 0 4px;
+  }
+  .summary-total .total-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .summary-total .total-amount {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--yellow);
+    line-height: 1;
+  }
+  .summary-total .total-period {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .summary-total .total-setup {
+    font-size: 12px;
+    color: var(--muted-2);
+    margin-top: 4px;
+  }
+
+  .summary-cta {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .summary-cta .btn { width: 100%; }
+  .summary-note {
+    font-size: 11px;
+    color: var(--muted-2);
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .cotizador-grid {
+      grid-template-columns: 1fr;
+    }
+    .summary-panel {
+      position: relative;
+      top: 0;
+    }
+  }
+  @media (max-width: 600px) {
+    .field-group { grid-template-columns: 1fr; }
+    .selector-row { flex-direction: column; }
+    .container { width: min(var(--maxw), calc(100% - 28px)); }
+    .nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <a class="brand" href="Pricing2026.html" aria-label="Adereso">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="10" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.14)"/><text x="16" y="21" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="14" font-weight="800" font-family="Inter,sans-serif">A</text></svg>
+        Adereso
+      </a>
+      <nav class="nav">
+        <a href="Pricing2026.html">← Volver al Pricing</a>
+      </nav>
+      <span class="badge"><span class="badge-dot"></span><span>Cotizador 2026</span></span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="cotizador-hero">
+    <div class="container">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,193,7,0.12); border:1px solid rgba(255,193,7,0.3); border-radius:20px; padding:5px 16px; font-size:12px; color:#ffc107; letter-spacing:1px; text-transform:uppercase; margin-bottom:18px;">Cotizador interactivo</div>
+      <h1>Configura tu plan <span class="accent">Adereso</span></h1>
+      <p>Selecciona los productos, ajusta las opciones y obtén tu cotización en tiempo real.</p>
+    </div>
+  </div>
+
+  <!-- COTIZADOR -->
+  <div class="container">
+    <div class="cotizador-grid">
+
+      <!-- ══════════ LEFT: CONFIGURADOR ══════════ -->
+      <div>
+
+        <!-- 1. Producto -->
+        <div class="config-section">
+          <div class="config-label">1 · Producto</div>
+          <div class="selector-row" id="product-selector">
+            <div class="selector-card active" data-product="desk" onclick="selectProduct('desk')">
+              <div class="icon">📊</div>
+              <div class="name">Adereso Desk</div>
+              <div class="desc">Plataforma omnicanal de atención</div>
+            </div>
+            <div class="selector-card" data-product="full" onclick="selectProduct('full')">
+              <div class="icon">🚀</div>
+              <div class="name">Desk + Studio</div>
+              <div class="desc">Plataforma completa con IA</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Plan Desk (visible cuando desk o full) -->
+        <div class="config-section" id="section-desk">
+          <div class="config-label">2 · Helpdesk — Bolsa de conversaciones</div>
+          <div class="field">
+            <label>Selecciona tu bolsa mensual</label>
+            <select id="desk-bolsa" onchange="recalc()">
+              <option value="2000">2.000 conversaciones — $199/mes</option>
+              <option value="5000">5.000 conversaciones — $399/mes</option>
+              <option value="10000" selected>10.000 conversaciones — $785/mes</option>
+              <option value="15000">15.000 conversaciones — $1.099/mes</option>
+              <option value="45000">45.000 conversaciones — $2.999/mes</option>
+              <option value="135000">135.000 conversaciones — $8.299/mes</option>
+              <option value="405000">405.000 conversaciones — $23.699/mes</option>
+            </select>
+            <div class="hint" id="desk-extra-hint" style="margin-top:8px;">Conversación extra fuera de bolsa: $0.0889 USD c/u</div>
+          </div>
+        </div>
+
+        <!-- 3. Plan Studio (visible cuando full) -->
+        <div class="config-section" id="section-studio" style="display:none;">
+          <div class="config-label" id="studio-step-label">3 · Plan Studio</div>
+          <div class="field">
+            <label>Conversaciones Studio / mes</label>
+            <div class="slider-wrap">
+              <input type="range" id="studio-slider" min="2000" max="10000" step="1000" value="2000" oninput="recalc()">
+              <div class="slider-value" id="studio-slider-value">2,000</div>
+            </div>
+            <div class="hint" id="studio-hint" style="margin-top:8px;">Mínimo 2.000 · Máximo según bolsa Desk seleccionada</div>
+          </div>
+        </div>
+
+        <!-- 4. Addons -->
+        <div class="config-section">
+          <div class="config-label" id="addons-step-label">3 · Complementos</div>
+
+          <div class="toggle-row" onclick="toggleAddon(this, 'addon-engage')">
+            <div class="toggle-info">
+              <div class="toggle-name">Módulo Engage</div>
+              <div class="toggle-desc">Uso de Módulo para envío de Campañas masivas + carritos abandonados</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="toggle-price-wrap">
+                <span class="toggle-price-original" id="price-addon-engage">+$149/mes</span>
+                <span class="toggle-price-free" id="free-addon-engage" style="display:none;">$0</span>
+              </span>
+              <div class="toggle-switch on" id="addon-engage" data-price="149"></div>
+            </div>
+          </div>
+
+          <div class="toggle-row" onclick="toggleAddon(this, 'addon-analytics')">
+            <div class="toggle-info">
+              <div class="toggle-name">Analytics Avanzado</div>
+              <div class="toggle-desc">Dashboards de análisis de ejecutivos y operativa de atención</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="toggle-price-wrap">
+                <span class="toggle-price-original" id="price-addon-analytics">+$79/mes</span>
+                <span class="toggle-price-free" id="free-addon-analytics" style="display:none;">$0</span>
+              </span>
+              <div class="toggle-switch on" id="addon-analytics" data-price="79"></div>
+            </div>
+          </div>
+
+          <div class="toggle-row" onclick="toggleAddon(this, 'addon-genia')">
+            <div class="toggle-info">
+              <div class="toggle-name">GENIA</div>
+              <div class="toggle-desc">Tu asistente de IA que acompaña a tu ejecutivo y te genera Bots</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="toggle-price-wrap">
+                <span class="toggle-price-original" id="price-addon-genia">+$99/mes</span>
+                <span class="toggle-price-free" id="free-addon-genia" style="display:none;">$0</span>
+              </span>
+              <div class="toggle-switch on" id="addon-genia" data-price="99"></div>
+            </div>
+          </div>
+
+          <div class="toggle-row" onclick="toggleAddon(this, 'addon-sla')">
+            <div class="toggle-info">
+              <div class="toggle-name">SLA Premium</div>
+              <div class="toggle-desc">Soporte prioritario 24/7 + CSM dedicado</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="toggle-price-wrap">
+                <span class="toggle-price-original" id="price-addon-sla">+$199/mes</span>
+                <span class="toggle-price-free" id="free-addon-sla" style="display:none;">$0</span>
+              </span>
+              <div class="toggle-switch on" id="addon-sla" data-price="199"></div>
+            </div>
+          </div>
+
+          <div class="toggle-row" onclick="toggleAddon(this, 'addon-review')">
+            <div class="toggle-info">
+              <div class="toggle-name">Business Review</div>
+              <div class="toggle-desc">Reunión periódica con CSM para analizar mejoras en el proceso y operativa</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="toggle-price-wrap">
+                <span class="toggle-price-original" id="price-addon-review">+$80/mes</span>
+                <span class="toggle-price-free" id="free-addon-review" style="display:none;">$0</span>
+              </span>
+              <div class="toggle-switch on" id="addon-review" data-price="80"></div>
+            </div>
+          </div>
+
+          <div class="toggle-row" onclick="toggleAddon(this, 'addon-epa')">
+            <div class="toggle-info">
+              <div class="toggle-name">EPA</div>
+              <div class="toggle-desc">Envío de encuestas personalizadas a tus clientes al cerrar la conversación</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="toggle-price-wrap">
+                <span class="toggle-price-original" id="price-addon-epa">+$199/mes</span>
+                <span class="toggle-price-free" id="free-addon-epa" style="display:none;">$0</span>
+              </span>
+              <div class="toggle-switch on" id="addon-epa" data-price="199"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Setup -->
+        <div class="config-section">
+          <div class="config-label" id="setup-step-label">4 · Plan de implementación</div>
+          <div class="selector-row" id="setup-selector" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="selector-card active" data-setup="esencial" onclick="selectSetup('esencial')">
+              <div class="icon">⚡</div>
+              <div class="name">Plan 1 – Esencial</div>
+              <div class="desc">Carga docs, capacitación, 20 HH desarrollo</div>
+              <div class="price-tag">$558 USD (único)</div>
+            </div>
+            <div class="selector-card" data-setup="inteligente" onclick="selectSetup('inteligente')">
+              <div class="icon">☆</div>
+              <div class="name">Plan 2 – Inteligente</div>
+              <div class="desc">APIs REST, hasta 3 reuniones, 30 HH desarrollo</div>
+              <div class="price-tag">$990 USD (único)</div>
+            </div>
+            <div class="selector-card" data-setup="avanzado" onclick="selectSetup('avanzado')">
+              <div class="icon">✳️</div>
+              <div class="name">Plan 3 – Avanzado</div>
+              <div class="desc">8 endpoints BFF, 4 reuniones, 40 HH desarrollo</div>
+              <div class="price-tag">$1.600 USD (único)</div>
+            </div>
+            <div class="selector-card" data-setup="enterprise" onclick="selectSetup('enterprise')">
+              <div class="icon">🏆</div>
+              <div class="name">Plan 4 – Enterprise</div>
+              <div class="desc">Múltiples BFF, 8 reuniones, 60 HH desarrollo</div>
+              <div class="price-tag">$2.700 USD (único)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Contrato -->
+        <div class="config-section">
+          <div class="config-label" id="contract-step-label">5 · Duración del contrato</div>
+          <div class="selector-row" id="contract-selector">
+            <div class="selector-card" data-contract="1" onclick="selectContract('1')">
+              <div class="name">Mensual</div>
+              <div class="desc">Sin compromiso</div>
+              <div class="price-tag">Precio lista</div>
+            </div>
+            <div class="selector-card active" data-contract="12" onclick="selectContract('12')">
+              <div class="name">Anual</div>
+              <div class="desc">12 meses</div>
+              <div class="price-tag" style="color:var(--green);">-10% descuento</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══════════ RIGHT: RESUMEN ══════════ -->
+      <div class="summary-panel">
+        <div class="summary-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Resumen de cotización
+        </div>
+
+        <div id="summary-lines">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <div class="summary-total">
+          <div class="total-label">Total mensual</div>
+          <div class="total-amount" id="total-monthly">$0</div>
+          <div class="total-period" id="total-period">USD / mes</div>
+          <div class="total-setup" id="total-setup"></div>
+        </div>
+
+        <div class="summary-cta">
+          <button class="btn" onclick="openRoiModal()">Calcular mi ROI →</button>
+        </div>
+        <div class="summary-note">* Precios referenciales en USD. Valores finales sujetos a validación comercial.</div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- ===================== MODAL ROI ===================== -->
+<div id="roi-modal">
+  <div class="roi-wrapper">
+
+    <button class="roi-close" onclick="document.getElementById('roi-modal').classList.remove('open'); document.body.style.overflow='';">✕</button>
+
+    <div style="text-align:center; margin-bottom:32px; padding-top:8px;">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,193,7,0.12); border:1px solid rgba(255,193,7,0.3); border-radius:20px; padding:5px 16px; font-size:12px; color:#ffc107; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">Calculadora de ROI</div>
+      <h2 style="font-size:clamp(22px,3vw,34px); font-weight:800; color:#fff; margin:0;">Calcula tus <span style="color:#4caf50;">beneficios</span> con Adereso</h2>
+      <p style="color:rgba(255,255,255,0.5); font-size:14px; margin-top:8px;">Ingresa tus datos y descubre el impacto real de Adereso en tu negocio.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="roi-tabs">
+      <button class="roi-tab active" data-tab="desk" onclick="switchRoiTab('desk')">📊 Adereso Desk</button>
+      <button class="roi-tab" data-tab="studio" onclick="switchRoiTab('studio')">✦ Adereso Studio</button>
+      <button class="roi-tab" data-tab="carritos" onclick="switchRoiTab('carritos')">🛒 Carritos Abandonados</button>
+    </div>
+
+    <!-- TAB: DESK -->
+    <div id="roi-tab-desk" class="roi-panel">
+      <p class="roi-desc">Compara el costo de tu equipo humano actual vs la inversión en Adereso Desk.</p>
+      <div class="roi-fields">
+        <div class="roi-field">
+          <label>Nº de agentes humanos actuales</label>
+          <input type="number" id="roi-desk-agentes" value="10" min="1" oninput="calcRoiDesk()">
+        </div>
+        <div class="roi-field">
+          <label>Salario mensual por agente (USD)</label>
+          <input type="number" id="roi-desk-salario" value="800" min="0" oninput="calcRoiDesk()">
+        </div>
+        <div class="roi-field">
+          <label>Otros costos por agente / mes (USD)<span class="roi-hint-block">RRHH, espacio, equipo, etc.</span></label>
+          <input type="number" id="roi-desk-overhead" value="200" min="0" oninput="calcRoiDesk()">
+        </div>
+        <div class="roi-field">
+          <label>Inversión mensual Adereso (USD)<span class="roi-hint-block">Valor según tu cotización</span></label>
+          <input type="number" id="roi-desk-precio" value="0" min="0" readonly style="opacity:0.7; cursor:default;">
+        </div>
+      </div>
+      <div class="roi-result">
+        <div class="roi-result-grid">
+          <div><div class="roi-result-label">Costo actual / mes</div><div class="roi-result-value" id="rd-costo-actual">$10,000</div></div>
+          <div><div class="roi-result-label">Con Adereso Desk</div><div class="roi-result-value accent" id="rd-costo-adereso">$359</div></div>
+          <div><div class="roi-result-label">Ahorro mensual</div><div class="roi-result-value green" id="rd-ahorro">$9,641</div></div>
+        </div>
+        <div class="roi-result-footer">
+          <span class="roi-result-label">ROI estimado anual:</span>
+          <span class="roi-result-value accent" id="rd-roi-anual">$115,692</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: STUDIO -->
+    <div id="roi-tab-studio" class="roi-panel" style="display:none;">
+      <p class="roi-desc">Calcula el ahorro de automatizar conversaciones con el Agente IA de Adereso Studio.</p>
+      <div class="roi-fields">
+        <div class="roi-field">
+          <label>Conversaciones mensuales totales</label>
+          <input type="number" id="roi-st-convs" value="5000" min="0" oninput="calcRoiStudio()">
+        </div>
+        <div class="roi-field">
+          <label>% que puede resolver la IA</label>
+          <input type="number" id="roi-st-pct" value="70" min="0" max="100" oninput="calcRoiStudio()">
+          <span class="roi-hint">Estimado industria: 60–80%</span>
+        </div>
+        <div class="roi-field">
+          <label>Costo por conversación humana (USD)<span class="roi-hint-block">Salario agente ÷ conversaciones/mes</span></label>
+          <input type="number" id="roi-st-costo" value="2.5" min="0" step="0.1" oninput="calcRoiStudio()">
+        </div>
+        <div class="roi-field">
+          <label>Inversión mensual Adereso (USD)<span class="roi-hint-block">Valor según tu cotización</span></label>
+          <input type="number" id="roi-st-precio" value="0" min="0" readonly style="opacity:0.7; cursor:default;">
+        </div>
+      </div>
+      <div class="roi-result">
+        <div class="roi-result-grid">
+          <div><div class="roi-result-label">Costo humano total</div><div class="roi-result-value" id="rs-costo-humano">$12,500</div></div>
+          <div><div class="roi-result-label">Con IA + equipo reducido</div><div class="roi-result-value accent" id="rs-costo-ia">$3,949</div></div>
+          <div><div class="roi-result-label">Ahorro mensual</div><div class="roi-result-value green" id="rs-ahorro">$8,551</div></div>
+        </div>
+        <div class="roi-result-footer">
+          <div><span class="roi-result-label">Conv. automatizadas / mes:</span> <span class="roi-result-value accent" id="rs-conv-auto">3,500</span></div>
+          <div><span class="roi-result-label">ROI anual estimado:</span> <span class="roi-result-value accent" id="rs-roi-anual">$102,612</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: CARRITOS -->
+    <div id="roi-tab-carritos" class="roi-panel" style="display:none;">
+      <p class="roi-desc">Estima el ingreso recuperado enviando mensajes de WhatsApp a clientes con carritos abandonados.</p>
+      <div class="roi-fields">
+        <div class="roi-field">
+          <label>Carritos abandonados / mes</label>
+          <input type="number" id="roi-ca-carritos" value="1000" min="0" oninput="calcRoiCarritos()">
+        </div>
+        <div class="roi-field">
+          <label>% de recuperación estimado</label>
+          <input type="number" id="roi-ca-pct" value="15" min="0" max="100" oninput="calcRoiCarritos()">
+          <span class="roi-hint">Benchmark WhatsApp: 10–20%</span>
+        </div>
+        <div class="roi-field">
+          <label>Ticket medio por carrito (USD)</label>
+          <input type="number" id="roi-ca-ticket" value="80" min="0" oninput="calcRoiCarritos()">
+        </div>
+        <div class="roi-field">
+          <label>Inversión mensual Adereso (USD)<span class="roi-hint-block">Valor según tu cotización</span></label>
+          <input type="number" id="roi-ca-inversion" value="0" min="0" readonly style="opacity:0.7; cursor:default;">
+        </div>
+      </div>
+      <div class="roi-result">
+        <div class="roi-result-grid">
+          <div><div class="roi-result-label">Ingresos recuperados</div><div class="roi-result-value" id="rc-ingreso">$12,000</div></div>
+          <div><div class="roi-result-label">Inversión mensual</div><div class="roi-result-value accent" id="rc-inversion">$500</div></div>
+          <div><div class="roi-result-label">Beneficio neto</div><div class="roi-result-value green" id="rc-beneficio">$11,500</div></div>
+        </div>
+        <div class="roi-result-footer">
+          <div><span class="roi-result-label">Carritos recuperados / mes:</span> <span class="roi-result-value accent" id="rc-recuperados">150</span></div>
+          <div><span class="roi-result-label">ROI:</span> <span class="roi-result-value accent" id="rc-roi">2,300%</span></div>
+          <div><span class="roi-result-label">Beneficio anual:</span> <span class="roi-result-value accent" id="rc-anual">$138,000</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align:center; color:rgba(255,255,255,0.25); font-size:11px; margin-top:24px;">* Estimaciones basadas en los datos ingresados. Los resultados reales pueden variar según el mercado y la operación.</p>
+  </div>
+</div>
+
+<style>
+#roi-modal {
+  display: none;
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  overflow-y: auto;
+  padding: 40px 20px;
+}
+#roi-modal.open { display: block; }
+.roi-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+}
+.roi-close {
+  position: absolute; top: 0; right: 0;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; font-size: 20px;
+  width: 36px; height: 36px;
+  border-radius: 50%; cursor: pointer;
+  line-height: 1; z-index: 10;
+}
+.roi-close:hover { background: rgba(255,255,255,0.14); }
+.roi-tabs {
+  display: flex; gap: 8px;
+  justify-content: center;
+  margin-bottom: 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 0;
+}
+.roi-tab {
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(255,255,255,0.45);
+  font-size: 13px; font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  font-family: Inter, sans-serif;
+}
+.roi-tab.active {
+  color: #fff;
+  border-bottom: 2px solid #ffc107;
+}
+.roi-desc {
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+.roi-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.roi-field {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.roi-field label {
+  font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 600;
+}
+.roi-field input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #fff; font-size: 15px; font-weight: 700;
+  outline: none;
+  font-family: Inter, sans-serif;
+  transition: border-color 0.2s;
+}
+.roi-field input:focus { border-color: rgba(255,193,7,0.5); }
+.roi-hint { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: -2px; }
+.roi-hint-block { font-size: 11px; color: rgba(255,255,255,0.35); display: block; }
+.roi-result {
+  background: rgba(255,193,7,0.07);
+  border: 1px solid rgba(255,193,7,0.2);
+  border-radius: 12px;
+  padding: 24px;
+}
+.roi-result-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+  text-align: center;
+}
+.roi-result-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.roi-result-value {
+  font-size: 24px; font-weight: 800; color: #fff;
+}
+.roi-result-value.accent { color: #ffc107; }
+.roi-result-value.green { color: #4caf50; }
+.roi-result-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.roi-result-footer .roi-result-label { display: inline; margin-bottom: 0; }
+.roi-result-footer .roi-result-value { font-size: 16px; display: inline; }
+@media (max-width:600px) {
+  .roi-fields { grid-template-columns: 1fr; }
+  .roi-result-grid { grid-template-columns: 1fr; }
+  .roi-tabs { flex-wrap: wrap; }
+}
+</style>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)"/><text x="16" y="21" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="14" font-weight="800" font-family="Inter,sans-serif">A</text></svg>
+        Adereso
+      </div>
+      <div>© 2026 Adereso · Hiper-eficiencia en Canales Digitales</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// ESTADO
+// ══════════════════════════════════════════════════════════════
+const state = {
+  product: 'desk',       // desk | studio | full
+  setup: 'esencial',     // esencial | inteligente | avanzado | enterprise
+  contract: '12',        // 1 | 12 | 24
+  addons: {
+    'addon-engage': true,
+    'addon-analytics': true,
+    'addon-genia': true,
+    'addon-sla': true,
+    'addon-review': true,
+    'addon-epa': true
+  }
+};
+
+// ══════════════════════════════════════════════════════════════
+// MATRIZ DE PRECIOS (editable)
+// ══════════════════════════════════════════════════════════════
+const PRICING = {
+  desk: {
+    2000:   { price: 199,   extra: 0.1005 },
+    5000:   { price: 399,   extra: 0.0889 },
+    10000:  { price: 785,   extra: 0.0889 },
+    15000:  { price: 1099,  extra: 0.0811 },
+    45000:  { price: 2999,  extra: 0.0761 },
+    135000: { price: 8299,  extra: 0.0703 },
+    405000: { price: 23699, extra: 0.0672 }
+  },
+  studio: {
+    2000:    0.1005,
+    5000:    0.1081,
+    10000:   0.1081,
+    15000:   0.0987,
+    45000:   0.0926,
+    135000:  0.0856,
+    405000:  0.0818,
+    1215000: 0.0771
+  },
+  studio_fixed: 160,
+  setup: {
+    esencial:    558,
+    inteligente: 990,
+    avanzado:    1600,
+    enterprise:  2700
+  },
+  contract_discount: {
+    1:  0,
+    12: 0.10,
+    24: 0.20
+  },
+  addons: {
+    'addon-engage':    149,
+    'addon-analytics': 79,
+    'addon-genia':     99,
+    'addon-sla':       199,
+    'addon-review':    80,
+    'addon-epa':       199
+  }
+};
+
+// ══════════════════════════════════════════════════════════════
+// SELECTORES
+// ══════════════════════════════════════════════════════════════
+function selectProduct(val) {
+  state.product = val;
+  document.querySelectorAll('#product-selector .selector-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.product === val);
+  });
+  updateVisibility();
+  recalc();
+}
+
+function selectSetup(val) {
+  state.setup = val;
+  document.querySelectorAll('#setup-selector .selector-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.setup === val);
+  });
+  recalc();
+}
+
+function selectContract(val) {
+  state.contract = val;
+  document.querySelectorAll('#contract-selector .selector-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.contract === val);
+  });
+  recalc();
+}
+
+function toggleAddon(row, id) {
+  const sw = document.getElementById(id);
+  const isOn = sw.classList.toggle('on');
+  state.addons[id] = isOn;
+
+  const priceEl = document.getElementById('price-' + id);
+  const freeEl = document.getElementById('free-' + id);
+  if (isOn) {
+    priceEl.classList.remove('struck');
+    freeEl.style.display = 'none';
+  } else {
+    priceEl.classList.add('struck');
+    freeEl.style.display = '';
+  }
+  recalc();
+}
+
+// ══════════════════════════════════════════════════════════════
+// VISIBILIDAD SECCIONES
+// ══════════════════════════════════════════════════════════════
+function updateVisibility() {
+  const showDesk = true;
+  const showStudio = state.product === 'full';
+
+  document.getElementById('section-desk').style.display = showDesk ? '' : 'none';
+  document.getElementById('section-studio').style.display = showStudio ? '' : 'none';
+
+  // Renumerar pasos
+  let step = 2;
+  if (showDesk) {
+    document.querySelector('#section-desk .config-label').textContent = step + ' · Plan Desk';
+    step++;
+  }
+  if (showStudio) {
+    document.getElementById('studio-step-label').textContent = step + ' · Plan Studio';
+    step++;
+  }
+  document.getElementById('addons-step-label').textContent = step + ' · Complementos opcionales';
+  step++;
+  document.getElementById('setup-step-label').textContent = step + ' · Plan de implementación';
+  step++;
+  document.getElementById('contract-step-label').textContent = step + ' · Duración del contrato';
+}
+
+// ══════════════════════════════════════════════════════════════
+// CÁLCULO
+// ══════════════════════════════════════════════════════════════
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function recalc() {
+  const lines = [];
+  let subtotal = 0;
+
+  const showDesk = true;
+  const showStudio = state.product === 'full';
+
+  // Desk
+  if (showDesk) {
+    const bolsa = document.getElementById('desk-bolsa').value;
+    const deskData = PRICING.desk[bolsa];
+    const deskPrice = deskData.price;
+    subtotal += deskPrice;
+
+    const bolsaLabel = parseInt(bolsa).toLocaleString('en-US');
+    lines.push({
+      label: 'Helpdesk (' + bolsaLabel + ' conv.)',
+      value: fmt(deskPrice),
+      type: ''
+    });
+
+    document.getElementById('desk-extra-hint').textContent =
+      'Conversación extra fuera de bolsa: $' + deskData.extra.toFixed(4) + ' USD c/u';
+  }
+
+  // Studio
+  if (showStudio) {
+    const bolsa = document.getElementById('desk-bolsa').value;
+    const deskBolsaNum = parseInt(bolsa);
+    const slider = document.getElementById('studio-slider');
+
+    slider.min = 2000;
+    slider.max = deskBolsaNum;
+    slider.step = deskBolsaNum <= 5000 ? 500 : deskBolsaNum <= 15000 ? 1000 : deskBolsaNum <= 45000 ? 5000 : 10000;
+
+    let studioConvs = parseInt(slider.value) || 2000;
+    if (studioConvs < 2000) studioConvs = 2000;
+    if (studioConvs > deskBolsaNum) studioConvs = deskBolsaNum;
+    slider.value = studioConvs;
+
+    document.getElementById('studio-slider-value').textContent = studioConvs.toLocaleString('en-US');
+
+    const studioRate = PRICING.studio[bolsa] || 0.1005;
+    const studioTotal = (studioConvs * studioRate) + PRICING.studio_fixed;
+    subtotal += studioTotal;
+
+    lines.push({
+      label: 'Studio (' + studioConvs.toLocaleString('en-US') + ' conv.)',
+      value: fmt(studioTotal),
+      type: ''
+    });
+
+    document.getElementById('studio-hint').textContent =
+      'Mín. 2.000 · Máx. ' + deskBolsaNum.toLocaleString('en-US') + ' · Tasa: $' + studioRate.toFixed(4) + '/conv.';
+  }
+
+
+  // Addons
+  let addonsTotal = 0;
+  const addonIds = ['addon-engage', 'addon-analytics', 'addon-genia', 'addon-sla', 'addon-review', 'addon-epa'];
+  addonIds.forEach(id => {
+    const price = PRICING.addons[id] || 0;
+    const isOn = state.addons[id];
+    const name = document.querySelector('#' + id).closest('.toggle-row').querySelector('.toggle-name').textContent;
+    if (isOn) {
+      addonsTotal += price;
+      lines.push({ label: name, value: '+' + fmt(price), type: '' });
+    } else {
+      lines.push({ label: name, value: '$0', type: 'highlight' });
+    }
+  });
+  subtotal += addonsTotal;
+
+  // Contract discount
+  const contractDisc = PRICING.contract_discount[state.contract] || 0;
+  if (contractDisc > 0) {
+    const disc = subtotal * contractDisc;
+    subtotal -= disc;
+    lines.push({
+      label: 'Descuento contrato (' + Math.round(contractDisc * 100) + '%)',
+      value: '-' + fmt(disc),
+      type: 'discount'
+    });
+  }
+
+  // Setup
+  const setupCost = PRICING.setup[state.setup] || 0;
+
+  // Render summary
+  const container = document.getElementById('summary-lines');
+  container.innerHTML = lines.map(l =>
+    '<div class="summary-line ' + l.type + '">' +
+      '<span class="label">' + l.label + '</span>' +
+      '<span class="value">' + l.value + '</span>' +
+    '</div>'
+  ).join('');
+
+  document.getElementById('total-monthly').textContent = fmt(subtotal);
+
+  const periods = { '1': 'USD / mes (sin compromiso)', '12': 'USD / mes × 12 meses', '24': 'USD / mes × 24 meses' };
+  document.getElementById('total-period').textContent = periods[state.contract] || '';
+
+  document.getElementById('total-setup').textContent = setupCost > 0
+    ? 'Setup: ' + fmt(setupCost) + ' (pago único)'
+    : 'Setup incluido';
+
+  window._cotizadorMRR = subtotal;
+}
+
+// Init
+updateVisibility();
+recalc();
+
+// ══════════════════════════════════════════════════════════════
+// MODAL ROI — Tabs + Calculadoras
+// ══════════════════════════════════════════════════════════════
+function openRoiModal() {
+  var mrr = window._cotizadorMRR || 0;
+  document.getElementById('roi-desk-precio').value = Math.round(mrr);
+  document.getElementById('roi-st-precio').value = Math.round(mrr);
+  document.getElementById('roi-ca-inversion').value = Math.round(mrr);
+  calcRoiDesk();
+  calcRoiStudio();
+  calcRoiCarritos();
+  document.getElementById('roi-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function switchRoiTab(name) {
+  document.querySelectorAll('.roi-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('roi-tab-' + name).style.display = 'block';
+  document.querySelectorAll('.roi-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.roi-tab[data-tab="' + name + '"]').classList.add('active');
+}
+
+function roiVal(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function roiFmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function roiPct(n) { return Math.round(n).toLocaleString('en-US') + '%'; }
+
+function calcRoiDesk() {
+  var agentes  = roiVal('roi-desk-agentes');
+  var salario  = roiVal('roi-desk-salario');
+  var precio   = roiVal('roi-desk-precio');
+  var overhead = roiVal('roi-desk-overhead');
+  var costoActual  = agentes * (salario + overhead);
+  var costoAdereso = precio;
+  var ahorro       = costoActual - costoAdereso;
+  document.getElementById('rd-costo-actual').textContent  = roiFmt(costoActual);
+  document.getElementById('rd-costo-adereso').textContent = roiFmt(costoAdereso);
+  document.getElementById('rd-ahorro').textContent        = roiFmt(Math.max(0, ahorro));
+  document.getElementById('rd-roi-anual').textContent     = roiFmt(Math.max(0, ahorro * 12));
+}
+
+function calcRoiStudio() {
+  var convs     = roiVal('roi-st-convs');
+  var pctIA     = roiVal('roi-st-pct') / 100;
+  var costoConv = roiVal('roi-st-costo');
+  var precio    = roiVal('roi-st-precio');
+  var convAuto    = convs * pctIA;
+  var costoHumano = convs * costoConv;
+  var costoConIA  = ((convs - convAuto) * costoConv) + precio;
+  var ahorro      = costoHumano - costoConIA;
+  document.getElementById('rs-costo-humano').textContent = roiFmt(costoHumano);
+  document.getElementById('rs-costo-ia').textContent     = roiFmt(Math.max(0, costoConIA));
+  document.getElementById('rs-ahorro').textContent       = roiFmt(Math.max(0, ahorro));
+  document.getElementById('rs-conv-auto').textContent    = Math.round(convAuto).toLocaleString('en-US');
+  document.getElementById('rs-roi-anual').textContent    = roiFmt(Math.max(0, ahorro * 12));
+}
+
+function calcRoiCarritos() {
+  var carritos  = roiVal('roi-ca-carritos');
+  var pctRec    = roiVal('roi-ca-pct') / 100;
+  var ticket    = roiVal('roi-ca-ticket');
+  var inversion = roiVal('roi-ca-inversion');
+  var recuperados = carritos * pctRec;
+  var ingreso     = recuperados * ticket;
+  var beneficio   = ingreso - inversion;
+  var roi         = inversion > 0 ? (beneficio / inversion) * 100 : 0;
+  document.getElementById('rc-ingreso').textContent     = roiFmt(ingreso);
+  document.getElementById('rc-inversion').textContent   = roiFmt(inversion);
+  document.getElementById('rc-beneficio').textContent   = roiFmt(Math.max(0, beneficio));
+  document.getElementById('rc-recuperados').textContent = Math.round(recuperados).toLocaleString('en-US');
+  document.getElementById('rc-roi').textContent         = roiPct(Math.max(0, roi));
+  document.getElementById('rc-anual').textContent       = roiFmt(Math.max(0, beneficio * 12));
+}
+
+calcRoiDesk();
+calcRoiStudio();
+calcRoiCarritos();
+
+document.getElementById('roi-modal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    this.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+</script>
+</body>
+</html>
